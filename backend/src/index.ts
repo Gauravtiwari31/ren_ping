@@ -4,7 +4,6 @@ import dotenv from 'dotenv';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './config/swagger';
 import { errorHandler } from './middlewares/errorHandler';
-import authRoutes from './routes/auth.routes';
 import serviceRoutes from './routes/service.routes';
 import rateLimit from 'express-rate-limit';
 
@@ -18,8 +17,8 @@ app.use(express.json());
 
 // Global Rate limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+  windowMs: 15 * 60 * 1000,
+  max: 100,
 });
 app.use(limiter);
 
@@ -27,7 +26,6 @@ app.use(limiter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Routes
-app.use('/api/auth', authRoutes);
 app.use('/api/services', serviceRoutes);
 
 app.get('/health', (req, res) => {

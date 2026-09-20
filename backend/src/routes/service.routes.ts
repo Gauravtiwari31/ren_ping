@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { authenticate } from '../middlewares/auth.middleware';
 import {
   createService,
   getServices,
@@ -10,16 +9,12 @@ import {
 
 const router = Router();
 
-router.use(authenticate);
-
 /**
  * @swagger
  * /api/services:
  *   get:
- *     summary: Get all services for logged in user
+ *     summary: Get all services
  *     tags: [Services]
- *     security:
- *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: List of services
@@ -32,8 +27,6 @@ router.get('/', getServices);
  *   get:
  *     summary: Get a specific service by ID
  *     tags: [Services]
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -52,8 +45,6 @@ router.get('/:id', getServiceById);
  *   post:
  *     summary: Add a new service to monitor
  *     tags: [Services]
- *     security:
- *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -77,8 +68,6 @@ router.post('/', createService);
  *   put:
  *     summary: Update an existing service
  *     tags: [Services]
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -108,8 +97,6 @@ router.put('/:id', updateService);
  *   delete:
  *     summary: Delete a service
  *     tags: [Services]
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id

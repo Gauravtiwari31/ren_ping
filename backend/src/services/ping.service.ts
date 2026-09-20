@@ -8,8 +8,7 @@ axiosRetry(pingClient, { retries: 3, retryDelay: axiosRetry.exponentialDelay });
 
 export const pingService = async (serviceId: string) => {
   const service = await prisma.service.findUnique({
-    where: { id: serviceId },
-    include: { user: true },
+    where: { id: serviceId }
   });
 
   if (!service) return;
@@ -63,7 +62,8 @@ export const pingService = async (serviceId: string) => {
         });
 
         if (!recentAlert) {
-          await sendAlertEmail(service.user.email, service.name, service.url, 'Service has been down for over 30 minutes.');
+          const alertEmail = process.env.ALERT_EMAIL || process.env.SMTP_USER || 'admin@localhost';
+          await sendAlertEmail(alertEmail, service.name, service.url, 'Service has been down for over 30 minutes.');
           await prisma.alertLog.create({
             data: {
               serviceId: service.id,

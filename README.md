@@ -35,7 +35,7 @@ The easiest way to run Renpin locally is via Docker. When running locally, your 
    npm run dev
    ```
 2. Open your browser and go to `http://localhost:3000`.
-3. Register a new account and start adding your URLs!
+3. Start adding your URLs!
 
 ---
 

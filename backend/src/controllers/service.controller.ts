@@ -1,22 +1,14 @@
 import { Request, Response } from 'express';
 import prisma from '../config/db';
 
-interface AuthRequest extends Request {
-  user?: { id: string };
-}
-
-export const createService = async (req: AuthRequest, res: Response) => {
+export const createService = async (req: Request, res: Response) => {
   try {
     const { name, url } = req.body;
-    const userId = req.user?.id;
-
-    if (!userId) return res.status(401).json({ success: false, message: 'Unauthorized' });
 
     const service = await prisma.service.create({
       data: {
         name,
         url,
-        userId,
       },
     });
 
@@ -26,13 +18,9 @@ export const createService = async (req: AuthRequest, res: Response) => {
   }
 };
 
-export const getServices = async (req: AuthRequest, res: Response) => {
+export const getServices = async (req: Request, res: Response) => {
   try {
-    const userId = req.user?.id;
-    if (!userId) return res.status(401).json({ success: false, message: 'Unauthorized' });
-
     const services = await prisma.service.findMany({
-      where: { userId },
       orderBy: { createdAt: 'desc' },
     });
 
@@ -42,15 +30,12 @@ export const getServices = async (req: AuthRequest, res: Response) => {
   }
 };
 
-export const getServiceById = async (req: AuthRequest, res: Response) => {
+export const getServiceById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const userId = req.user?.id;
-
-    if (!userId) return res.status(401).json({ success: false, message: 'Unauthorized' });
 
     const service = await prisma.service.findFirst({
-      where: { id, userId },
+      where: { id },
       include: {
         pingLogs: {
           orderBy: { createdAt: 'desc' },
@@ -67,15 +52,12 @@ export const getServiceById = async (req: AuthRequest, res: Response) => {
   }
 };
 
-export const updateService = async (req: AuthRequest, res: Response) => {
+export const updateService = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { name, url } = req.body;
-    const userId = req.user?.id;
 
-    if (!userId) return res.status(401).json({ success: false, message: 'Unauthorized' });
-
-    const existingService = await prisma.service.findFirst({ where: { id, userId } });
+    const existingService = await prisma.service.findFirst({ where: { id } });
     if (!existingService) return res.status(404).json({ success: false, message: 'Service not found' });
 
     const updatedService = await prisma.service.update({
@@ -89,14 +71,11 @@ export const updateService = async (req: AuthRequest, res: Response) => {
   }
 };
 
-export const deleteService = async (req: AuthRequest, res: Response) => {
+export const deleteService = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const userId = req.user?.id;
 
-    if (!userId) return res.status(401).json({ success: false, message: 'Unauthorized' });
-
-    const existingService = await prisma.service.findFirst({ where: { id, userId } });
+    const existingService = await prisma.service.findFirst({ where: { id } });
     if (!existingService) return res.status(404).json({ success: false, message: 'Service not found' });
 
     await prisma.service.delete({ where: { id } });
