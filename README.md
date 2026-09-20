@@ -54,5 +54,4 @@ If you prefer to host Renpin in the cloud, follow these steps. Please read `DEPL
 2. Select the `frontend` folder as the Root Directory.
 3. Add the `NEXT_PUBLIC_API_URL` environment variable pointing to your Render backend URL.
 
-### ⚠️ Important Note for Render Free Tier
-If you deploy this backend to Render's free tier, the backend itself will go to sleep after 15 minutes of inactivity. To prevent this, you **must** use a free tool like [cron-job.org](https://cron-job.org/) or [UptimeRobot](https://uptimerobot.com/) to ping your Renpin backend URL (`https://your-renpin-backend.onrender.com/health`) every 10 minutes. Once Renpin stays awake, it will automatically keep all your other Render apps awake!
+By Gaurav Tiwari!!
