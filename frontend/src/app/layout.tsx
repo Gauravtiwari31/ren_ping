@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Keep Alive Monitor",
-  description: "Monitor and keep alive your Render deployments",
+  title: "Renpin",
+  description: "Renpin - Monitor and keep alive your Render deployments",
 };
 
 export default function RootLayout({

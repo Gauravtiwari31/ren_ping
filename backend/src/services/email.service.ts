@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
 export const sendAlertEmail = async (to: string, serviceName: string, serviceUrl: string, message: string) => {
   try {
     const mailOptions = {
-      from: '"Keep Alive Monitor" <alerts@keepalive.local>',
+      from: '"Renpin Monitor" <alerts@renpin.local>',
       to,
       subject: `🚨 Alert: ${serviceName} is DOWN`,
       html: `

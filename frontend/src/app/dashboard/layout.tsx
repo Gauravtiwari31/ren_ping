@@ -30,7 +30,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <nav className="bg-white dark:bg-gray-800 shadow p-4 flex justify-between items-center">
         <Link href="/dashboard" className="flex items-center space-x-2 font-bold text-xl text-blue-600 dark:text-blue-400">
           <Activity />
-          <span>KeepAlive</span>
+          <span>Renpin</span>
         </Link>
         <button onClick={handleLogout} className="flex items-center space-x-1 text-gray-600 dark:text-gray-300 hover:text-red-500">
           <LogOut size={18} />
