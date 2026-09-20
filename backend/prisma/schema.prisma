@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @id @default(uuid())
+  email     String    @unique
+  password  String
+  services  Service[]
+  createdAt DateTime  @default(now())
+}
+
+model Service {
+  id               String     @id @default(uuid())
+  userId           String
+  user             User       @relation(fields: [userId], references: [id])
+  name             String
+  url              String
+  status           String     @default("UNKNOWN") // ONLINE, OFFLINE, UNKNOWN
+  uptimePercentage Float      @default(100.0)
+  lastPingAt       DateTime?
+  lastDownAt       DateTime?
+  createdAt        DateTime   @default(now())
+  
+  pingLogs         PingLog[]
+  alertLogs        AlertLog[]
+}
+
+model PingLog {
+  id           String   @id @default(uuid())
+  serviceId    String
+  service      Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  responseTime Int      
+  statusCode   Int?
+  isSuccess    Boolean
+  createdAt    DateTime @default(now())
+}
+
+model AlertLog {
+  id        String   @id @default(uuid())
+  serviceId String
+  service   Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  message   String
+  resolved  Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
